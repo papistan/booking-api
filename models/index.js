@@ -21,7 +21,7 @@ const truckSchema = new Schema({
   startTime: Number,
   endTime: Number,
   jobs: [{ type: ObjectId, ref: "Job" }],
-  created_at: Date
+  created_at: Date // add default Data.now()
 });
 
 const Truck = model("Truck", truckSchema);
