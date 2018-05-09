@@ -9,6 +9,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
 var app = express();
+const api = require("./routes/api/index");
 
 mongoose.Promise = global.Promise;
 
@@ -32,7 +33,7 @@ app.all("/*", function(req, res, next) {
 });
 
 //Adds connection to database using mongoose
-mongoose.connect("booker:bookinguser@ds237815.mlab.com:37815/booking", {
+mongoose.connect(ENV, {
   useMongoClient: true
 });
 
@@ -47,7 +48,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/api", api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
