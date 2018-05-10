@@ -10,6 +10,51 @@ const jobController = {
     var requestBody = req.body;
 
     // helper function to find available truck
+    Job.find(
+      { date: requestBody.date },
+      "startTime totalHours truck date",
+      function(err, jobs) {
+        if (err) return err;
+
+        Truck.find({}, "_id", function(err, trucks) {
+          let allTrucks = {};
+          trucks.forEach(truck => {
+            allTrucks[truck._id] = "available";
+          });
+          return allTrucks;
+        })
+
+          .then(allTrucks => {
+            let newJobStartTime = requestBody.startTime;
+            let newJobEndTime = newJobStartTime + requestBody.totalHours;
+            jobs.forEach(job => {
+              let existingJobEndTime = job.startTime + job.totalHours;
+              if (
+                (newJobStartTime >= job.startTime &&
+                  newJobStartTime < existingJobEndTime) ||
+                (newJobEndTime > job.startTime &&
+                  newJobEndTime < existingJobEndTime) ||
+                (newJobStartTime <= job.startTime &&
+                  newJobEndTime >= existingJobEndTime)
+              ) {
+                if (allTrucks[job.truck] === "available") {
+                  allTrucks[job.truck] = "booked";
+                }
+              }
+            });
+            return allTrucks;
+          })
+
+          .then(allTrucks => {
+            return Object.keys(allTrucks).filter(
+              truckId => allTrucks[truckId] === "available"
+            );
+          })
+          .then(truck => {
+            console.log(truck);
+          });
+      }
+    );
 
     // Creates a new record from a submitted form
     var newjob = new Job({
@@ -20,7 +65,6 @@ const jobController = {
       truck: requestBody.truck,
       created_at: Date.now()
     });
-    console.log(newjob);
     // saves record to data base
     newjob.save();
     Job.find({}).exec((err, jobs) => res.json(jobs));
