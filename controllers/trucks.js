@@ -16,17 +16,11 @@ const truckController = {
       endTime: requestBody.endTime,
       created_at: Date.now()
     });
-    console.log(newtruck);
-    // saves record to data base
-    newtruck.save();
-    Truck.find({}).exec((err, trucks) => res.json(trucks));
-    // newtruck.save((err, saved) => {
-    //   // Returns the saved truck
-    //   // after a successful save
-    //   Truck.find({ _id: saved._id })
-    //     // .populate("jobs")
-    //     .exec((err, truck) => res.json(truck));
-    // });
+    // saves record to data base and returns json of new truck object
+    newtruck
+      .save()
+      .then(truck => res.json(truck))
+      .catch(err => res.json(err));
   }
 };
 
