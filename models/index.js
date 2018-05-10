@@ -9,7 +9,7 @@ const jobSchema = new Schema({
   date: Date,
   startTime: Number,
   totalHours: Number,
-  truck: { type: ObjectId, ref: "Truck" },
+  truck: { type: ObjectId, required: true, ref: "Truck" },
   created_at: Date
 });
 
