@@ -33,12 +33,9 @@ app.all("/*", function(req, res, next) {
 });
 
 //Adds connection to database using mongoose
-mongoose.connect(
-  "mongodb://booker:bookinguser@ds237815.mlab.com:37815/booking",
-  {
-    useMongoClient: true
-  }
-);
+mongoose.connect(ENV.DATABASE, {
+  useMongoClient: true
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
