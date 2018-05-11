@@ -23,9 +23,12 @@ For development, you will need [Node.js](http://nodejs.org/) and [Yarn](https://
 ## Endpoints / Routes
 
 GET
-api/jobs (list of all jobs)
-api/trucks (list of all trucks)
-
+```
+    api/jobs (list of all jobs)
+    api/trucks (list of all trucks)
+```
 POST
-api/jobCreate (create a new job) - required inputs: name: string, date: string, startTime: Number, totalHours: Number
-api/truckCreate (list of all trucks) - required inputs: name: string, startTime: Number, endTime: Number
+```
+    api/jobCreate (create a new job) - required inputs: name: string, date: string, startTime: Number, totalHours: Number
+    api/truckCreate (list of all trucks) - required inputs: name: string, startTime: Number, endTime: Number
+```
